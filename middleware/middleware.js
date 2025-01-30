@@ -1,7 +1,5 @@
-const books = require ('../models/booksModel.js')
 const { body, validationResult } = require('express-validator');
-
-
+const books = require ('../models/booksModel.js')
 
 // Middleware to check if the book exists by ID
 const getBookIdM = (req, res, next) => {
@@ -39,6 +37,19 @@ const addBookM = [
 ];
 
 
+// Middleware to validate required fields for updating a book
+const updateM = [
+    body('name').optional().notEmpty().withMessage('Name must not be empty if provided'),
+    body('author').optional().notEmpty().withMessage('Author must not be empty if provided'),
+    body('publishedYear').optional().isNumeric().withMessage('Published Year must be a number if provided'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
 
 
 // Middleware to check if book exists before deleting
@@ -55,4 +66,7 @@ const deleteBookM = (req, res, next) => {
 
     return res.status(404).json({message:"book not found !"})
 };
-module.exports={getBookIdM,addBookM,deleteBookM}
+
+
+
+module.exports = { getBookIdM, addBookM, updateM, deleteBookM };

@@ -18,7 +18,6 @@ exports.getAllBooks = (req, res) => {
 };
 
 
-
 // Get a book by ID
 exports.getBookById = (req, res) => {
 
@@ -32,7 +31,8 @@ exports.getBookById = (req, res) => {
     res.json(book);
 };
 
-// add new book
+
+// Add a new book
 exports.addBook = (req, res) => {
     const { name, author, publishedYear } = req.body;
     const newBook = { id: books.length + 1, name, author, publishedYear };
@@ -43,25 +43,16 @@ exports.addBook = (req, res) => {
 
 
 // Update an existing book
+exports.updateBook = (req, res) => {
+    const { name, author, publishedYear } = req.body;
+    const book = req.book;
 
-exports.updateBook = async (req, res) => {
-    
-        const book = parseInt(req.params.id);
+    if (name) book.name = name;
+    if (author) book.author = author;
+    if (publishedYear) book.publishedYear = publishedYear;
 
-        if (!book) {
-            return res.status(404).json({ message: "Book not found" });
-        }
-
-        const { name, author, description } = req.body;
-        if (name) book.name = name;
-        if (author) book.author = author;
-        if (description) book.description = description;
-
-      
-        return res.status(200).json({ message: "Book updated successfully",book });
-    
+    res.json(book);
 };
-
 
 
 
