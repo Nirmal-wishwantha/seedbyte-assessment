@@ -19,10 +19,12 @@ exports.getBookById = (req, res) => {
     res.json(book);
 };
 
-
-// Add a new book
+// add new book
 exports.addBook = (req, res) => {
-    
+    const { name, author, publishedYear } = req.body;
+    const newBook = { id: books.length + 1, name, author, publishedYear };
+    books.push(newBook);
+    res.status(201).json(newBook);
 };
 
 
