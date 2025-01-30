@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /books:
+ * /api/v1/books:
  *   get:
  *     summary: Retrieve all books with pagination
  *     description: Fetches a paginated list of books from the database.
@@ -15,7 +15,7 @@ const router = express.Router();
  *         name: page
  *         schema:
  *           type: integer
- *           example: 2
+ *           example: 1
  *         description: The page number (default is 1).
  *       - in: query
  *         name: limit
@@ -51,12 +51,12 @@ const router = express.Router();
  *                       publishedYear:
  *                         type: integer
  */
-router.get("/books",getAllBooks);
+router.get("/books", getAllBooks);
 
 
 /**
  * @swagger
- * /books/{id}:
+ * /api/v1/book/{id}:
  *   get:
  *     summary: Get a book by ID
  *     description: Retrieve details of a book by its ID.
@@ -72,43 +72,64 @@ router.get("/books",getAllBooks);
  *       404:
  *         description: Book not found
  */
-router.get("/book/:id",getBookIdM,getBookById);
+router.get("/book/:id", getBookIdM, getBookById);
+
 
 /**
  * @swagger
- * /books:
+ * /api/v1/book:
  *   post:
  *     summary: Add a new book
- *     description: Create a new book with name, author, and published year.
+ *     description: Create a new book by providing book details.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required: 
+ *             required:
  *               - name
  *               - author
  *               - publishedYear
  *             properties:
  *               name:
  *                 type: string
+ *                 description: The name of the book
+ *                 example: "The Great Gatsby"
  *               author:
  *                 type: string
+ *                 description: The author of the book
+ *                 example: "F. Scott Fitzgerald"
  *               publishedYear:
  *                 type: integer
+ *                 description: The year the book was published
+ *                 example: 1925
  *     responses:
  *       201:
  *         description: Book created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 author:
+ *                   type: string
+ *                 publishedYear:
+ *                   type: integer
  *       400:
- *         description: Validation error
+ *         description: Bad request, invalid data
  */
-router.post("/book",addBookM,addBook);
+router.post("/book", addBookM, addBook);
+
 
 
 /**
  * @swagger
- * /books/{id}:
+ * /api/v1/book/{id}:
  *   put:
  *     summary: Update an existing book
  *     description: Modify details of an existing book.
@@ -144,7 +165,7 @@ router.put("/book/:id",getBookIdM,updateM,updateBook);
 
 /**
  * @swagger
- * /books/{id}:
+ * /api/v1/book/{id}:
  *   delete:
  *     summary: Delete a book
  *     description: Removes a book from the collection by ID.
@@ -160,6 +181,6 @@ router.put("/book/:id",getBookIdM,updateM,updateBook);
  *       404:
  *         description: Book not found
  */
-router.delete("/book/:id",getBookIdM,deleteBookM,deleteBook);
+router.delete("/book/:id",deleteBookM,deleteBook);
 
 module.exports = router;

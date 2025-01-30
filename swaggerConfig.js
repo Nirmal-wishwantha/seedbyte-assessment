@@ -1,7 +1,6 @@
-const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-// Swagger definition
 const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
@@ -12,7 +11,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "http://localhost:3001/api",
+                url: "http://localhost:3001",
                 description: "Local server"
             }
         ]
@@ -20,11 +19,12 @@ const swaggerOptions = {
     apis: ["./routes/bookRoutes.js"], // Path to the API route files
 };
 
-// Initialize Swagger docs
-const swaggerSpec = swaggerJsDoc(swaggerOptions);
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const swaggerDocs = (app) => {
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+        customSiteTitle: "Book API Documentation"
+    }));
 };
 
 module.exports = swaggerDocs;

@@ -52,19 +52,18 @@ const updateM = [
 ];
 
 
+
 // Middleware to check if book exists before deleting
 const deleteBookM = (req, res, next) => {
-
     const bookId = parseInt(req.params.id);
 
-    for(let i = 0 ; books.length ;i ++){
-
-        if(books[i] === bookId){
+    for (let i = 0; i < books.length; i++) {  
+        if (books[i].id === bookId) { 
             return next();
         }
     }
 
-    return res.status(404).json({message:"book not found !"})
+    return res.status(404).json({ message: "Book not found!" });
 };
 
 
