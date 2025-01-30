@@ -30,14 +30,45 @@ exports.addBook = (req, res) => {
 
 
 // Update an existing book
-exports.updateBook = (req, res) => {
+
+exports.updateBook = async (req, res) => {
+    
+        const book = parseInt(req.params.id);
+
+        if (!book) {
+            return res.status(404).json({ message: "Book not found" });
+        }
+
+        const { name, author, description } = req.body;
+        if (name) book.name = name;
+        if (author) book.author = author;
+        if (description) book.description = description;
+
+      
+        return res.status(200).json({ message: "Book updated successfully",book });
     
 };
+
 
 
 
 //delete book
 
 exports.deleteBook = (req, res) => {
-    
+    const bookId = parseInt(req.params.id);
+    let found = false;
+
+    for (let i = 0; i < books.length; i++) {
+        if (books[i].id === bookId) {
+            books.splice(i, 1); 
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        return res.status(404).json({ message: "Book not found" });
+    }
+
+    res.json({ message: "Book deleted successfully" });
 };
