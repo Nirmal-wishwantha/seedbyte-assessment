@@ -162,25 +162,26 @@ router.post("/book", addBookM, addBook);
  */
 router.put("/book/:id",getBookIdM,updateM,updateBook);
 
-
 /**
  * @swagger
  * /api/v1/book/{id}:
  *   delete:
- *     summary: Delete a book
- *     description: Removes a book from the collection by ID.
+ *     summary: Delete a book by ID
+ *     description: Removes a book from the database by its ID.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: The ID of the book to delete
  *     responses:
  *       200:
  *         description: Book deleted successfully
  *       404:
  *         description: Book not found
  */
-router.delete("/book/:id",deleteBookM,deleteBook);
+router.delete("/book/:id", deleteBookM, deleteBook);
+
 
 module.exports = router;
