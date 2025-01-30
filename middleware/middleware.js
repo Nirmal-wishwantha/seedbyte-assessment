@@ -38,4 +38,21 @@ const addBookM = [
     }
 ];
 
-module.exports={getBookIdM,addBookM}
+
+
+
+// Middleware to check if book exists before deleting
+const deleteBookM = (req, res, next) => {
+
+    const bookId = parseInt(req.params.id);
+
+    for(let i = 0 ; books.length ;i ++){
+
+        if(books[i] === bookId){
+            return next();
+        }
+    }
+
+    return res.status(404).json({message:"book not found !"})
+};
+module.exports={getBookIdM,addBookM,deleteBookM}
