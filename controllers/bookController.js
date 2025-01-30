@@ -1,9 +1,22 @@
-const books = require("../models/booksModel")
+const books = require("../models/booksModel");
 
 // List all books with pagination
 exports.getAllBooks = (req, res) => {
-    
+    const { page = 1, limit = 5 } = req.query;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + parseInt(limit);
+
+    const paginatedBooks = books.slice(startIndex, endIndex);
+
+    res.json({
+        totalBooks: books.length,
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(books.length / limit),
+        books: paginatedBooks,
+    });
 };
+
 
 
 // Get a book by ID
